@@ -1,3 +1,5 @@
+//go:generate mockery --name MessageService --output ./mocks/
+
 package service
 
 import (
@@ -7,9 +9,6 @@ import (
 	"log/slog"
 )
 
-// MessageService is the interface that provides message methods.
-//
-//go:generate mockery --name MessageService --output ./mocks/
 type MessageRepo interface {
 	Get(context.Context, int64) (*domain.Message, error)
 	GetAll(context.Context) ([]*domain.Message, error)
@@ -18,6 +17,7 @@ type MessageRepo interface {
 	Delete(context.Context, int64) error
 }
 
+// MessageService is the interface that provides message methods.
 type MessageService struct {
 	logger      *slog.Logger
 	messageRepo MessageRepo
