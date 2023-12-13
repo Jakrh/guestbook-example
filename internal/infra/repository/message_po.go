@@ -1,16 +1,19 @@
 package repository
 
-import "guestbook-example/internal/domain"
+import (
+	"guestbook-example/internal/domain"
+
+	"gorm.io/gorm"
+)
 
 type Message struct {
-	ID      int64  `gorm:"primaryKey"`
+	gorm.Model
 	Author  string `gorm:"not null"`
 	Message string `gorm:"not null"`
 }
 
 func (m *Message) ToEntity() *domain.Message {
 	return &domain.Message{
-		ID:      m.ID,
 		Author:  m.Author,
 		Message: m.Message,
 	}
