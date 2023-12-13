@@ -1,4 +1,4 @@
-//go:generate mockery --name MessageService --output ./mocks/
+//go:generate mockery --name MessageRepo --output ./mocks/
 
 package service
 
