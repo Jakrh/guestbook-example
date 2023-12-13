@@ -15,7 +15,7 @@ import (
 	"github.com/glebarez/sqlite"
 )
 
-// GORM with modernc.org/sqlite
+// GORM with glebarez/sqlite
 func initDB() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open("sqlite.db"), &gorm.Config{})
 	if err != nil {
