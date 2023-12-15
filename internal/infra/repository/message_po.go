@@ -14,6 +14,7 @@ type Message struct {
 
 func (m *Message) ToEntity() *domain.Message {
 	return &domain.Message{
+		ID:      int64(m.ID),
 		Author:  m.Author,
 		Message: m.Message,
 	}
