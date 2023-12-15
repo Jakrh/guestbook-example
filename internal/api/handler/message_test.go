@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"guestbook-example/internal/api/handler/mocks"
 	"guestbook-example/internal/domain"
+	"io"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +18,8 @@ import (
 )
 
 func TestMessageHandler_Get(t *testing.T) {
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	gin.DefaultWriter = io.Discard
+	logger := slog.New(slog.NewJSONHandler(io.Discard, nil))
 
 	tests := []struct {
 		name           string
@@ -75,7 +76,8 @@ func TestMessageHandler_Get(t *testing.T) {
 }
 
 func TestMessageHandler_GetAll(t *testing.T) {
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	gin.DefaultWriter = io.Discard
+	logger := slog.New(slog.NewJSONHandler(io.Discard, nil))
 
 	tests := []struct {
 		name           string
@@ -120,7 +122,8 @@ func TestMessageHandler_GetAll(t *testing.T) {
 }
 
 func TestMessageHandler_Create(t *testing.T) {
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	gin.DefaultWriter = io.Discard
+	logger := slog.New(slog.NewJSONHandler(io.Discard, nil))
 
 	type requestBody struct {
 		Author  string `json:"author"`
@@ -180,7 +183,8 @@ func TestMessageHandler_Create(t *testing.T) {
 }
 
 func TestMessageHandler_Update(t *testing.T) {
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	gin.DefaultWriter = io.Discard
+	logger := slog.New(slog.NewJSONHandler(io.Discard, nil))
 
 	type requestBody struct {
 		Author  string `json:"author"`
@@ -240,7 +244,8 @@ func TestMessageHandler_Update(t *testing.T) {
 }
 
 func TestMessageHandler_Delete(t *testing.T) {
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	gin.DefaultWriter = io.Discard
+	logger := slog.New(slog.NewJSONHandler(io.Discard, nil))
 
 	tests := []struct {
 		name           string
