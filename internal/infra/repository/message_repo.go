@@ -23,12 +23,17 @@ func NewMessageRepo(logger *slog.Logger, db *gorm.DB) *MessageRepo {
 }
 
 func (r *MessageRepo) Create(ctx context.Context, m *domain.Message) (int64, error) {
-	tx := r.db.Create(m)
+	po := &Message{
+		Author:  m.Author,
+		Message: m.Message,
+	}
+
+	tx := r.db.Create(po)
 	if tx.Error != nil {
 		return 0, fmt.Errorf("failed to create message from repository: %w", tx.Error)
 	}
 
-	return m.ID, nil
+	return int64(po.ID), nil
 }
 
 func (r *MessageRepo) Get(ctx context.Context, id int64) (*domain.Message, error) {
@@ -53,7 +58,15 @@ func (r *MessageRepo) GetAll(ctx context.Context) ([]*domain.Message, error) {
 }
 
 func (r *MessageRepo) Update(ctx context.Context, m *domain.Message) error {
-	return r.db.Save(m).Error
+	po := &Message{
+		Model: gorm.Model{
+			ID: uint(m.ID),
+		},
+		Author:  m.Author,
+		Message: m.Message,
+	}
+
+	return r.db.Save(po).Error
 }
 
 func (r *MessageRepo) Delete(ctx context.Context, id int64) error {
