@@ -1,0 +1,20 @@
+resolve-type-alias: false
+disable-version-string: true
+issue-845-fix: true
+packages:
+  guestbook-example/internal/api/handler:
+    interfaces:
+      MessageService:
+        config:
+          outpkg: "mocks"
+          mockname: "{{.InterfaceName}}"
+          filename: "{{.InterfaceName}}.go"
+          dir: "./internal/api/handler/mocks"
+  guestbook-example/internal/service:
+    interfaces:
+      MessageRepo:
+        config:
+          outpkg: "mocks"
+          mockname: "{{.InterfaceName}}"
+          filename: "{{.InterfaceName}}.go"
+          dir: "./internal/service/mocks"

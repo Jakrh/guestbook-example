@@ -1,5 +1,3 @@
-//go:generate mockery --name MessageRepo --output ./mocks/
-
 package service
 
 import (

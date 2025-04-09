@@ -1,7 +1,5 @@
 package handler
 
-//go:generate mockery --name MessageService --output ./mocks/
-
 import (
 	"context"
 	"errors"
