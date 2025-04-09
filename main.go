@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"guestbook-example/internal/api"
 	"guestbook-example/internal/api/handler"
-	"guestbook-example/internal/domain"
 	"guestbook-example/internal/infra/repository"
 	"guestbook-example/internal/service"
 	"log/slog"
@@ -23,13 +22,13 @@ func initDB() (*gorm.DB, error) {
 	}
 
 	// Migrate the schema
-	db.AutoMigrate(&domain.Message{})
+	db.AutoMigrate(&repository.Message{})
 
 	return db, err
 }
 
 func migrateDB(db *gorm.DB) error {
-	err := db.AutoMigrate(&domain.Message{})
+	err := db.AutoMigrate(&repository.Message{})
 	if err != nil {
 		return fmt.Errorf("failed to migrate database: %w", err)
 	}
