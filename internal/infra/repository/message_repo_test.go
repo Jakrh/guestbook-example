@@ -163,7 +163,7 @@ func Test_messageRepo_Get(t *testing.T) {
 			fields: fields{
 				logger: slog.New(slog.NewTextHandler(buff, nil)),
 				db: func() *gorm.DB {
-					mock.ExpectQuery(".*").WithArgs(1).
+					mock.ExpectQuery(".*").WithArgs(1, 1).
 						WillReturnRows(sqlmock.NewRows([]string{"id", "author", "message"}).
 							AddRow(1, "Arthur Morgan", "Hey, Dutch!"))
 					return gormdb
@@ -185,7 +185,7 @@ func Test_messageRepo_Get(t *testing.T) {
 			fields: fields{
 				logger: slog.New(slog.NewTextHandler(os.Stdout, nil)),
 				db: func() *gorm.DB {
-					mock.ExpectQuery(".*").WithArgs(1).
+					mock.ExpectQuery(".*").WithArgs(1, 1).
 						WillReturnError(sql.ErrConnDone)
 					return gormdb
 				}(),
