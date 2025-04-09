@@ -1,18 +1,24 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"guestbook-example/internal/api"
 	"guestbook-example/internal/api/handler"
 	"guestbook-example/internal/infra/repository"
 	"guestbook-example/internal/service"
+	"io/fs"
 	"log/slog"
+	"net/http"
 	"os"
 
 	"gorm.io/gorm"
 
 	"github.com/glebarez/sqlite"
 )
+
+//go:embed static/*
+var embeddedFiles embed.FS
 
 // GORM with glebarez/sqlite
 func initDB() (*gorm.DB, error) {
@@ -51,11 +57,18 @@ func main() {
 		panic(err)
 	}
 
+	staticFiles, err := fs.Sub(embeddedFiles, "static")
+	if err != nil {
+		// TODO: handle error
+		panic(err)
+	}
+
 	messageRepo := repository.NewMessageRepo(logger, db)
 	messageService := service.NewMessageService(logger, messageRepo)
 	messageHandler := handler.NewMessageHandler(logger, messageService)
+	staticFileHandler := handler.NewStaticFileHandler(logger, http.FS(staticFiles))
 
-	router := api.SetupRouter(messageHandler)
+	router := api.SetupRouter(messageHandler, staticFileHandler)
 
 	router.Run(":8080")
 

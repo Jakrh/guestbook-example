@@ -1,19 +1,34 @@
 package api
 
 import (
-	"guestbook-example/internal/api/handler"
-
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(messageHandler *handler.MessageHandler) *gin.Engine {
+type MessageHandler interface {
+	Create(c *gin.Context)
+	GetAll(c *gin.Context)
+	Get(c *gin.Context)
+	Update(c *gin.Context)
+	Delete(c *gin.Context)
+}
+
+type StaticFileHandler interface {
+	Get(c *gin.Context)
+}
+
+func SetupRouter(messageHandler MessageHandler, staticFileHandler StaticFileHandler) *gin.Engine {
 	router := gin.Default()
 
-	router.POST("/messages", messageHandler.Create)
-	router.GET("/messages", messageHandler.GetAll)
-	router.GET("/messages/:id", messageHandler.Get)
-	router.PUT("/messages/:id", messageHandler.Update)
-	router.DELETE("/messages/:id", messageHandler.Delete)
+	api := router.Group("/api/v1")
+	{
+		api.POST("/messages", messageHandler.Create)
+		api.GET("/messages", messageHandler.GetAll)
+		api.GET("/messages/:id", messageHandler.Get)
+		api.PUT("/messages/:id", messageHandler.Update)
+		api.DELETE("/messages/:id", messageHandler.Delete)
+	}
+
+	router.NoRoute(staticFileHandler.Get)
 
 	return router
 }

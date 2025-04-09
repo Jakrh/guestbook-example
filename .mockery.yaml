@@ -2,6 +2,28 @@ resolve-type-alias: false
 disable-version-string: true
 issue-845-fix: true
 packages:
+  net/http:
+    interfaces:
+      FileSystem:
+        config:
+          outpkg: "mocks"
+          mockname: "{{.InterfaceName}}"
+          filename: "{{.InterfaceName}}.go"
+          dir: "./internal/api/handler/mocks"
+  guestbook-example/internal/api:
+    interfaces:
+      MessageHandler:
+        config:
+          outpkg: "mocks"
+          mockname: "{{.InterfaceName}}"
+          filename: "{{.InterfaceName}}.go"
+          dir: "./internal/api/mocks"
+      StaticFileHandler:
+        config:
+          outpkg: "mocks"
+          mockname: "{{.InterfaceName}}"
+          filename: "{{.InterfaceName}}.go"
+          dir: "./internal/api/mocks"
   guestbook-example/internal/api/handler:
     interfaces:
       MessageService:

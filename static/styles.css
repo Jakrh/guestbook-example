@@ -1,0 +1,123 @@
+/* Base Styles */
+:root {
+    --primary-color: #007BFF;
+    --primary-hover: #0056b3;
+    --light-bg: #f9f9f9;
+    --border-color: #ccc;
+    --error-color: #ff0000;
+    --text-color: #333;
+    --text-light: #888;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Typography */
+h1,
+h2 {
+    margin-top: 0;
+    text-align: left;
+}
+
+/* Forms */
+form {
+    margin-bottom: 20px;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* Error States */
+.error-placeholder {
+    border-color: var(--error-color);
+    color: var(--error-color);
+}
+
+.error-placeholder::placeholder {
+    color: var(--error-color);
+}
+
+.error-message {
+    color: var(--error-color);
+    font-weight: bold;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Messages Container */
+#messages {
+    margin-top: 20px;
+}
+
+/* Message Items */
+.message {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 500px;
+    border-radius: 5px;
+    background-color: #fff;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-light);
+    transition: color 0.2s;
+}
+
+.delete-btn:hover {
+    color: var(--error-color);
+}
+
+/* Accessibility Helper */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
