@@ -149,13 +149,40 @@ func TestMessageHandler_Create(t *testing.T) {
 			expectedStatus: http.StatusCreated,
 		},
 		{
-			name: "failed to create message",
+			name: "failed to create message with empty request body",
 			messageService: func() MessageService {
 				mockService := new(mocks.MessageService)
-				mockService.On("Create", mock.Anything, mock.AnythingOfType("*domain.Message")).Return(int64(0), fmt.Errorf("failed to create message"))
+				mockService.On("Create", mock.Anything, mock.AnythingOfType("*domain.Message")).Return(int64(1), nil)
 				return mockService
 			}(),
-			expectedStatus: http.StatusInternalServerError,
+			requestBody:    requestBody{},
+			expectedStatus: http.StatusBadRequest,
+		},
+		{
+			name: "failed to create message with empty author",
+			messageService: func() MessageService {
+				mockService := new(mocks.MessageService)
+				mockService.On("Create", mock.Anything, mock.AnythingOfType("*domain.Message")).Return(int64(1), nil)
+				return mockService
+			}(),
+			requestBody: requestBody{
+				Author:  "",
+				Content: "Hello everybody!",
+			},
+			expectedStatus: http.StatusBadRequest,
+		},
+		{
+			name: "failed to create message with empty content",
+			messageService: func() MessageService {
+				mockService := new(mocks.MessageService)
+				mockService.On("Create", mock.Anything, mock.AnythingOfType("*domain.Message")).Return(int64(1), nil)
+				return mockService
+			}(),
+			requestBody: requestBody{
+				Author:  "John Doe",
+				Content: "",
+			},
+			expectedStatus: http.StatusBadRequest,
 		},
 	}
 

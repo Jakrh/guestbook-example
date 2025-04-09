@@ -88,9 +88,23 @@ func (h *MessageHandler) Create(c *gin.Context) {
 		return
 	}
 
+	// Validate request
+	author := req.Author
+	if author == "" {
+		h.logger.Error("failed to create message", slog.String("error", "author is empty"))
+		c.JSON(http.StatusBadRequest, gin.H{"error": "author is empty"})
+		return
+	}
+	content := req.Content
+	if content == "" {
+		h.logger.Error("failed to create message", slog.String("error", "content is empty"))
+		c.JSON(http.StatusBadRequest, gin.H{"error": "content is empty"})
+		return
+	}
+
 	id, err := h.messageService.Create(c, &domain.Message{
-		Author:  req.Author,
-		Message: req.Content,
+		Author:  author,
+		Message: content,
 	})
 	if err != nil {
 		h.logger.Error("failed to create message", slog.String("error", err.Error()))
